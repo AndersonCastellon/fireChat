@@ -1,0 +1,25 @@
+<a
+  [routerLink]="['chat', conversation.id]"
+  class="list-group-item list-group-item-action list-group-item-light rounded-0"
+  routerLinkActive="text-white bg-primary"
+>
+  <div class="media">
+    <img
+      src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
+      alt="user"
+      width="50"
+      class="rounded-circle"
+    />
+    <div class="media-body ml-4">
+      <div class="d-flex align-items-center justify-content-between mb-1">
+        <h6 class="mb-0">{{ conversation.userName }}</h6>
+        <small class="small font-weight-bold">{{
+          conversation.lastDate | date: 'short'
+        }}</small>
+      </div>
+      <p class="font-italic mb-0 text-small">
+        {{ conversation.lastMessage }}
+      </p>
+    </div>
+  </div>
+</a>
