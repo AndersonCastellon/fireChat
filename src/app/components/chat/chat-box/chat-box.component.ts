@@ -6,7 +6,12 @@ import { MessageModel } from 'src/app/models/message.model';
 @Component({
   selector: 'app-chat-box',
   template: `
-    <app-message *ngFor="let message of chat" [message]="message"></app-message>
+    <div>
+      <app-message
+        *ngFor="let message of chat"
+        [message]="message"
+      ></app-message>
+    </div>
   `
 })
 export class ChatBoxComponent implements OnInit, OnDestroy, DoCheck {
@@ -22,7 +27,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   ngOnInit() {
-    console.log('OnInit ejecutado');
     this.getChat();
   }
 

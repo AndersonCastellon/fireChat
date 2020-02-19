@@ -1,0 +1,160 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5 animated fadeInUp">
+        <div class="card-body">
+          <h5 class="card-title text-center">Regístrate</h5>
+          <form
+            [formGroup]="form"
+            (ngSubmit)="registerWithEmail()"
+            class="form-signin"
+            novalidate
+          >
+            <div class="form-label-group">
+              <input
+                [ngClass]="{
+                  'is-invalid':
+                    form.get('name').touched && form.get('name').invalid
+                }"
+                formControlName="name"
+                type="text"
+                id="name"
+                class="form-control"
+                placeholder="Nombre"
+                name="name"
+              />
+              <label for="name">Nombre</label>
+              <div *ngIf="form.get('name').touched">
+                <div
+                  *ngIf="form.get('name').errors?.required"
+                  class="text-danger"
+                >
+                  El nombre es requerido
+                </div>
+              </div>
+            </div>
+            <div class="form-label-group">
+              <input
+                [ngClass]="{
+                  'is-invalid':
+                    form.get('email').touched && form.get('email').invalid
+                }"
+                formControlName="email"
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Correo electrónico"
+              />
+              <label for="email">Correo electrónico</label>
+              <div *ngIf="form.get('email').touched">
+                <div
+                  *ngIf="form.get('email').errors?.required"
+                  class="text-danger"
+                >
+                  El correo electrónico es requerido
+                </div>
+                <div
+                  *ngIf="form.get('email').errors?.pattern"
+                  class="text-danger"
+                >
+                  El correo electrónico es inválido
+                </div>
+              </div>
+            </div>
+            <div formGroupName="passwords">
+              <div class="form-label-group">
+                <input
+                  [ngClass]="{
+                    'is-invalid':
+                      form.get('passwords.password1').touched &&
+                      form.get('passwords.password1').invalid
+                  }"
+                  formControlName="password1"
+                  type="password"
+                  id="password1"
+                  name="password1"
+                  class="form-control"
+                  placeholder="Contraseña"
+                />
+                <label for="password1">Contraseña</label>
+                <div *ngIf="form.get('passwords.password1').touched">
+                  <div
+                    *ngIf="form.get('passwords.password1').errors?.required"
+                    class="text-danger"
+                  >
+                    La contraseña es requerida
+                  </div>
+                  <div
+                    *ngIf="
+                      form.get('passwords.password1').errors?.minlength ||
+                      form.get('passwords.password1').errors?.maxlength
+                    "
+                    class="text-danger"
+                  >
+                    Introduce entre 8 y 15 caracteres
+                  </div>
+                </div>
+              </div>
+              <div class="form-label-group">
+                <input
+                  [ngClass]="{
+                    'is-invalid':
+                      form.get('passwords.password2').touched &&
+                      form.get('passwords').invalid
+                  }"
+                  formControlName="password2"
+                  type="password"
+                  id="password2"
+                  name="password2"
+                  class="form-control"
+                  placeholder="Repetir contraseña"
+                />
+                <label for="password2">Repetir contraseña</label>
+                <div *ngIf="form.get('passwords.password2').touched">
+                  <div
+                    *ngIf="form.get('passwords').errors?.notconfirm"
+                    class="text-danger"
+                  >
+                    Las contraseñas no coinciden
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              [disabled]="form.invalid"
+              class="btn btn-lg btn-primary btn-block text-uppercase"
+              type="submit"
+            >
+              Registrarme
+            </button>
+            <div class="row mt-2 mx-1">
+              <div class="col">
+                <a [routerLink]="['/login']" class="text-info float-right"
+                  >Ya tienes cuenta?, ingresa aquí</a
+                >
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        *ngIf="error === 'auth/email-already-in-use' && errorMsj"
+        class="alert alert-danger alert-dismissible animated bounceInUp"
+        role="alert"
+      >
+        El correo <strong>{{ form.controls['email'].value }}</strong> ya está en
+        uso, inicia sesión
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

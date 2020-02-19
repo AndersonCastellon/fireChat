@@ -2,16 +2,18 @@
   <router-outlet></router-outlet>
 </div>
 
-<form class="bg-light">
+<form (ngSubmit)="sendMessage(f)" #f="ngForm" class="bg-light">
   <div class="input-group">
     <input
       type="text"
+      [(ngModel)]="message.message"
+      name="message"
+      required
       placeholder="Type a message"
-      aria-describedby="button-addon2"
       class="form-control rounded-0 border-0 py-4 bg-light"
     />
     <div class="input-group-append">
-      <button id="button-addon2" type="submit" class="btn btn-link">
+      <button type="submit" class="btn btn-link">
         <i class="fa fa-paper-plane"></i>
       </button>
     </div>

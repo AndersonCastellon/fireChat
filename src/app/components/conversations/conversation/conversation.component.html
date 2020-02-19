@@ -12,13 +12,13 @@
     />
     <div class="media-body ml-4">
       <div class="d-flex align-items-center justify-content-between mb-1">
-        <h6 class="mb-0">{{ conversation.userName }}</h6>
+        <h6 class="mb-0">{{ conversation.displayName }}</h6>
         <small class="small font-weight-bold">{{
-          conversation.lastDate | date: 'short'
+          conversation.date | date: 'short'
         }}</small>
       </div>
       <p class="font-italic mb-0 text-small">
-        {{ conversation.lastMessage }}
+        {{ conversation.message }}
       </p>
     </div>
   </div>

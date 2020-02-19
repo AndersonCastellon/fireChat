@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatFireDataSourceService } from 'src/app/services/firebase/chat-fire-data-source.service';
 import { ConversationModel } from 'src/app/models/conversation.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-conversation-list',
@@ -13,7 +12,6 @@ export class ConversationListComponent implements OnInit {
 
   ngOnInit() {
     this.chatService.getConversations().subscribe((c) => {
-      console.log('conversationlist', c);
       this.conversations = c;
     });
   }

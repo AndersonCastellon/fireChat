@@ -1,5 +1,8 @@
 export class UserModel {
-  id?: string;
-  name: string;
-  avatar?: string;
+  uid?: string;
+  displayName: string;
+  photoURL?: string;
+  email: string;
+  refreshToken?: string;
+  password?: string;
 }
