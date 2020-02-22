@@ -39,8 +39,8 @@ export class ChatFireDataSourceService {
       map((actions) => {
         return actions.map((action) => {
           const data = action.payload.doc.data() as ConversationModel;
-          const id = action.payload.doc.id;
-          return { id, ...data };
+          const uid = action.payload.doc.id;
+          return { uid, ...data };
         });
       })
     );

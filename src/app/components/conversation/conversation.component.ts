@@ -10,5 +10,7 @@ export class ConversationComponent implements OnInit {
   @Input() conversation: ConversationModel;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.conversation);
+  }
 }

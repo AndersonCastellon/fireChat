@@ -5,7 +5,15 @@ import { ConversationsComponent } from './conversations.component';
 const routes: Routes = [
   {
     path: '',
-    component: ConversationsComponent
+    component: ConversationsComponent,
+    children: [
+      {
+        path: ':conversation',
+        outlet: 'chat',
+        loadChildren: () =>
+          import('../chat-box/chat-box.module').then((m) => m.ChatBoxModule)
+      }
+    ]
   }
 ];
 

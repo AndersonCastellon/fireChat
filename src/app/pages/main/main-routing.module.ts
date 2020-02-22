@@ -20,12 +20,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('../users/users.module').then((m) => m.UsersModule)
       },
-      {
-        path: 'conversations/:conversation',
-        outlet: 'chat',
-        loadChildren: () =>
-          import('../chat-box/chat-box.module').then((m) => m.ChatBoxModule)
-      },
       { path: '**', pathMatch: 'full', redirectTo: 'conversations' }
     ]
   }
