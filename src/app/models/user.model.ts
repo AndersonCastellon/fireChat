@@ -5,4 +5,5 @@ export class UserModel {
   email: string;
   refreshToken?: string;
   password?: string;
+  providerId?: string;
 }

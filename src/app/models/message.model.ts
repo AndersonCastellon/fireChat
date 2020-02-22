@@ -2,7 +2,7 @@ export class MessageModel {
   uid?: string;
   userUid?: string;
   displayName: string;
-  avatar?: string;
+  photoURL?: string;
   message: string;
   date?: number;
 }

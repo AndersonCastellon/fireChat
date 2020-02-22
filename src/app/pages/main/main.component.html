@@ -1,0 +1,57 @@
+<div class="container py-3 px-4 animated fadeInUp">
+  <div class="row rounded-lg overflow-hidden shadow">
+    <!-- Users box-->
+    <div class="col-5 px-0">
+      <div class="bg-white">
+        <div class="row bg-gray px-4 py-2 bg-light">
+          <div class="col text-muted">
+            <p class="h5 mb-0 py-1">
+              Recientes
+            </p>
+          </div>
+          <div class="col align-self-center">
+            <a [routerLink]="['users']"
+              ><i class="fas fa-plus float-right"></i
+            ></a>
+          </div>
+          <div class="col align-self-center">
+            <button (click)="logout()" class="btn btn-link float-right">
+              <i class="fas fa-sign-out-alt text-danger"></i>
+            </button>
+          </div>
+        </div>
+        <div class="messages-box">
+          <div class="list-group rounded-0">
+            <!-- Recents conversations -->
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Chat Box-->
+    <div class="col-7 px-0">
+      <div class="px-4 py-5 chat-box bg-white">
+        <!-- Sender Message-->
+        <router-outlet name="chat"></router-outlet>
+      </div>
+
+      <!-- Typing area -->
+      <form class="bg-light">
+        <div class="input-group">
+          <input
+            type="text"
+            name="message"
+            required
+            placeholder="Escribe un mensaje"
+            class="form-control rounded-0 border-0 py-4 bg-light"
+          />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-link">
+              <i class="fa fa-paper-plane text-success"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

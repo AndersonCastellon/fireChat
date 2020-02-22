@@ -7,13 +7,13 @@ import { map } from 'rxjs/operators';
 // Firebase
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
-  AngularFirestoreDocument
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { MessageModel } from '../../models/message.model';
 import { UserModel } from '../..//models/user.model';
 import { ConversationModel } from 'src/app/models/conversation.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +28,7 @@ export class ChatFireDataSourceService {
 
   constructor(private firestore: AngularFirestore) {
     this.currentUser = new UserModel();
-    this.currentUser.displayName = 'Anderson Castellon';
-    this.currentUser.uid = 'u01';
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   getConversations(): Observable<ConversationModel[]> {
@@ -47,17 +46,17 @@ export class ChatFireDataSourceService {
     );
   }
 
-  getChat(conversation: string): Observable<MessageModel[]> {
+  getChat(idConv: string): Observable<MessageModel[]> {
     this.conversationsCollection
-      .doc(conversation)
+      .doc(idConv)
       .valueChanges()
       .subscribe((convers: ConversationModel) => {
-        convers.id = conversation;
+        convers.uid = idConv;
         this.setDataConversation(convers);
       });
 
     this.messagesCollection = this.firestore.collection<MessageModel>(
-      `users/${this.currentUser.uid}/conversations/${conversation}/chat`,
+      `users/${this.currentUser.uid}/conversations/${idConv}/chat`,
       (ref) => ref.orderBy('date', 'asc')
     );
     return this.messagesCollection.snapshotChanges().pipe(
@@ -103,13 +102,13 @@ export class ChatFireDataSourceService {
 
   private setDataConversation(conversation: ConversationModel) {
     localStorage.removeItem('uids');
-    localStorage.removeItem('cvrstn');
+    localStorage.removeItem('currentConversation');
 
     if (conversation.users) {
       localStorage.setItem('uids', JSON.stringify(conversation.users));
     }
 
-    localStorage.setItem('cvrstn', conversation.id);
+    localStorage.setItem('currentConversation', conversation.uid);
   }
 
   private getUsersConversation(): [] {
@@ -119,6 +118,6 @@ export class ChatFireDataSourceService {
   }
 
   private getConversationId() {
-    return localStorage.getItem('cvrstn');
+    return localStorage.getItem('currentConversation');
   }
 }

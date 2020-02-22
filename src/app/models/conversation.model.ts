@@ -1,8 +1,8 @@
 export class ConversationModel {
-  id?: string;
-  userId?: string;
+  uid?: string;
+  userUid?: string;
   displayName: string;
-  avatar?: string;
+  photoURL?: string;
   message: string;
   date?: number;
   users?: [];
