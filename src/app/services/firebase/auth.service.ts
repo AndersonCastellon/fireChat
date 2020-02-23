@@ -133,6 +133,6 @@ export class AuthService {
   }
 
   private getToConversations() {
-    this.router.navigate(['home/conversations']);
+    this.router.navigate(['conversations']);
   }
 }

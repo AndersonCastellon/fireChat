@@ -7,20 +7,11 @@ const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'conversations' },
       {
-        path: 'conversations',
+        path: 'chat/:conversation',
         loadChildren: () =>
-          import('../conversations/conversations.module').then(
-            (m) => m.ConversationsModule
-          )
-      },
-      {
-        path: 'users',
-        loadChildren: () =>
-          import('../users/users.module').then((m) => m.UsersModule)
-      },
-      { path: '**', pathMatch: 'full', redirectTo: 'conversations' }
+          import('../chat-box/chat-box.module').then((m) => m.ChatBoxModule)
+      }
     ]
   }
 ];

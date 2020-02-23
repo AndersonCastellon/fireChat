@@ -10,7 +10,7 @@
             </p>
           </div>
           <div class="col align-self-center">
-            <a [routerLink]="['users']"
+            <a (click)="switchView()"
               ><i class="fas fa-plus float-right"></i
             ></a>
           </div>
@@ -23,7 +23,14 @@
         <div class="messages-box">
           <div class="list-group rounded-0">
             <!-- Recents conversations -->
-            <router-outlet></router-outlet>
+            <app-conversations
+              *ngIf="!userList"
+              class="animated fadeInLeft fast"
+            ></app-conversations>
+            <app-users
+              *ngIf="userList"
+              class="animated fadeInRight fast"
+            ></app-users>
           </div>
         </div>
       </div>
@@ -32,7 +39,7 @@
     <div class="col-7 px-0">
       <div class="px-4 py-5 chat-box bg-white">
         <!-- Sender Message-->
-        <router-outlet name="chat"></router-outlet>
+        <router-outlet></router-outlet>
       </div>
 
       <!-- Typing area -->

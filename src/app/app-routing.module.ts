@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'login',
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: () => redirectLoggedInTo(['home']) },
+    data: { authGuardPipe: () => redirectLoggedInTo(['conversations']) },
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule)
   },
@@ -22,14 +22,14 @@ const routes: Routes = [
       import('./pages/signin/signin.module').then((m) => m.SigninModule)
   },
   {
-    path: 'home',
+    path: 'conversations',
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: () => redirectUnauthorizedTo(['login']) },
     loadChildren: () =>
       import('./pages/main/main.module').then((m) => m.MainModule)
   },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: '**', pathMatch: 'full', redirectTo: 'home' }
+  { path: '', pathMatch: 'full', redirectTo: 'conversations' },
+  { path: '**', pathMatch: 'full', redirectTo: 'conversations' }
 ];
 
 @NgModule({

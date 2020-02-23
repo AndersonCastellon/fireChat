@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { ConversationsModule } from '../conversations/conversations.module';
+import { UsersModule } from '../users/users.module';
 
 @NgModule({
   declarations: [MainComponent],
@@ -12,7 +14,9 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
     RouterModule,
     CommonModule,
     MainRoutingModule,
-    AngularFireAuthGuardModule
+    AngularFireAuthGuardModule,
+    ConversationsModule,
+    UsersModule
   ]
 })
 export class MainModule {}
