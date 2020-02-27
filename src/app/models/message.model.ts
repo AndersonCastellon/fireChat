@@ -1,4 +1,4 @@
-export class MessageModel {
+export interface MessageModel {
   uid?: string;
   userUid?: string;
   displayName: string;

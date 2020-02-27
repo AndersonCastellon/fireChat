@@ -11,14 +11,14 @@ import {
 } from '@angular/fire/firestore';
 import 'firebase/firestore';
 import { MessageModel } from '../../models/message.model';
-import { UserModel } from '../..//models/user.model';
+import { UserModel } from '../../models/user.model';
 import { ConversationModel } from 'src/app/models/conversation.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatFireDataSourceService {
+export class ChatService {
   private currentUser: UserModel;
   private usersCollection: AngularFirestoreCollection<UserModel>;
   private conversationsCollection: AngularFirestoreCollection<
@@ -28,7 +28,6 @@ export class ChatFireDataSourceService {
   private sendMessageCollection: AngularFirestoreCollection<MessageModel>;
 
   constructor(private firestore: AngularFirestore, private auth: AuthService) {
-    this.currentUser = new UserModel();
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 

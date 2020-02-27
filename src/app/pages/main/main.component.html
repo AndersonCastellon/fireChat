@@ -23,14 +23,6 @@
         <div class="messages-box">
           <div class="list-group rounded-0">
             <!-- Recents conversations -->
-            <app-conversations
-              *ngIf="!userList"
-              class="animated fadeInLeft fast"
-            ></app-conversations>
-            <app-users
-              *ngIf="userList"
-              class="animated fadeInRight fast"
-            ></app-users>
           </div>
         </div>
       </div>
@@ -39,7 +31,6 @@
     <div class="col-7 px-0">
       <div class="px-4 py-5 chat-box bg-white">
         <!-- Sender Message-->
-        <app-chat-box *ngIf="chat"></app-chat-box>
       </div>
 
       <!-- Typing area -->

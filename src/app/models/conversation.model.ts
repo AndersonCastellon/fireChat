@@ -1,4 +1,4 @@
-export class ConversationModel {
+export interface ConversationModel {
   uid?: string;
   userUid?: string;
   displayName: string;

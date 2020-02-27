@@ -32,9 +32,7 @@ export class LoginComponent implements OnInit {
   public form: FormGroup;
   private emptyUser: UserModel;
 
-  constructor(public auth: AuthService) {
-    this.emptyUser = new UserModel();
-  }
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
     this.form = new FormGroup({

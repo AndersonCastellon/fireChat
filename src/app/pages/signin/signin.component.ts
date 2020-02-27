@@ -14,10 +14,7 @@ export class SigninComponent implements OnInit {
   private newUser: UserModel;
   private emptyUser: UserModel;
 
-  constructor(public auth: AuthService) {
-    this.newUser = new UserModel();
-    this.emptyUser = new UserModel();
-  }
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
     this.form = new FormGroup({
