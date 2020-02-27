@@ -8,7 +8,7 @@ import { UserModel } from 'src/app/models/user.model';
 })
 export class UserComponent implements OnInit {
   @Input() user: UserModel;
-  public localUser: UserModel;
+  @Input() uid: string;
   constructor() {}
 
   ngOnInit() {}

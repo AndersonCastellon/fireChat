@@ -2,23 +2,27 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MainRoutingModule } from './main-routing.module';
-import { MainComponent } from './main.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
-import { ConversationsModule } from '../conversations/conversations.module';
-import { UsersModule } from '../users/users.module';
-import { ChatBoxModule } from '../chat-box/chat-box.module';
+
+import { MainRoutingModule } from './main-routing.module';
+
+import { MainComponent } from './main.component';
+import { ConversationComponent } from '../../components/conversation/conversation.component';
+import { MessageComponent } from '../../components/message/message.component';
+import { UserComponent } from '../../components/user/user.component';
 
 @NgModule({
-  declarations: [MainComponent],
+  declarations: [
+    MainComponent,
+    ConversationComponent,
+    MessageComponent,
+    UserComponent
+  ],
   imports: [
     RouterModule,
     CommonModule,
     MainRoutingModule,
-    AngularFireAuthGuardModule,
-    ConversationsModule,
-    UsersModule,
-    ChatBoxModule
+    AngularFireAuthGuardModule
   ]
 })
 export class MainModule {}
