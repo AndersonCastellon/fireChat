@@ -47,4 +47,12 @@ export class MainComponent implements OnInit {
       this.users = result;
     });
   }
+
+  public onLoadChat(conversationId: string) {
+    this.chat.getChat(conversationId).subscribe((chat) => {
+      this.messages = chat;
+    });
+  }
+
+  public onCreateConversation(uid: string) {}
 }
