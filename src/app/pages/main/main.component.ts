@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/firebase/auth.service';
-import { Router } from '@angular/router';
+import { ChatFlowService } from 'src/app/services/chat-flow.service';
 
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styles: []
+  templateUrl: './main.component.html'
 })
 export class MainComponent implements OnInit {
   public userList = false;
-  constructor(private auth: AuthService, private route: Router) {}
+  public chat = false;
+  constructor(private auth: AuthService, private chatFlow: ChatFlowService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.createConversation();
+    this.loadChat();
+  }
 
   logout() {
     this.auth.logout();
@@ -19,15 +22,30 @@ export class MainComponent implements OnInit {
 
   switchView() {
     this.userList = !this.userList;
-
+    this.chat = !this.chat;
     this.userList ? this.getUserList() : this.getConversationList();
   }
 
   getUserList() {
     console.log('UserList cargado');
-    this.route.navigate(['conversations']);
   }
   getConversationList() {
     console.log('ConversationList cargado');
+  }
+
+  createConversation() {
+    this.chatFlow.conversation.subscribe((conversation) => {
+      if (conversation) {
+        this.userList = false;
+      }
+    });
+  }
+
+  loadChat() {
+    this.chatFlow.chat.subscribe((uid) => {
+      if (uid) {
+        this.chat = true;
+      }
+    });
   }
 }

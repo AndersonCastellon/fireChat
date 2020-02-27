@@ -7,6 +7,7 @@ import { MainComponent } from './main.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { ConversationsModule } from '../conversations/conversations.module';
 import { UsersModule } from '../users/users.module';
+import { ChatBoxModule } from '../chat-box/chat-box.module';
 
 @NgModule({
   declarations: [MainComponent],
@@ -16,7 +17,8 @@ import { UsersModule } from '../users/users.module';
     MainRoutingModule,
     AngularFireAuthGuardModule,
     ConversationsModule,
-    UsersModule
+    UsersModule,
+    ChatBoxModule
   ]
 })
 export class MainModule {}

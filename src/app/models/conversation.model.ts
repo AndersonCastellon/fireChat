@@ -5,5 +5,5 @@ export class ConversationModel {
   photoURL?: string;
   message: string;
   date?: number;
-  users?: [];
+  users?: string[];
 }

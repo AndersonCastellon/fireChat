@@ -7,6 +7,7 @@ import { MessageComponent } from 'src/app/components/message/message.component';
 
 @NgModule({
   declarations: [ChatBoxComponent, MessageComponent],
-  imports: [CommonModule, ChatBoxRoutingModule]
+  imports: [CommonModule, ChatBoxRoutingModule],
+  exports: [ChatBoxComponent]
 })
 export class ChatBoxModule {}

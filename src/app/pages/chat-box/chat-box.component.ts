@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
 import { MessageModel } from 'src/app/models/message.model';
-import { ActivatedRoute } from '@angular/router';
 import { ChatFireDataSourceService } from 'src/app/services/firebase/chat-fire-data-source.service';
+import { ChatFlowService } from 'src/app/services/chat-flow.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -13,15 +13,12 @@ export class ChatBoxComponent implements OnInit, DoCheck, OnDestroy {
   private id: string;
   private previousId: string;
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private chatService: ChatFireDataSourceService
-  ) {
-    this.id = this.activatedRoute.snapshot.paramMap.get('conversation');
-    this.previousId = this.id;
-  }
+    private chatService: ChatFireDataSourceService,
+    private chatFlow: ChatFlowService
+  ) {}
 
   ngOnInit() {
-    this.getChat();
+    this.loadChat();
   }
 
   getChat() {
@@ -32,15 +29,25 @@ export class ChatBoxComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     console.log('DoCheck ejecutado');
-    this.id = this.activatedRoute.snapshot.paramMap.get('conversation');
+
     if (this.id === this.previousId) {
       return;
     }
-    this.previousId = this.id;
+    this.loadChat();
     this.getChat();
   }
 
   ngOnDestroy(): void {
     this.messages = [];
+  }
+
+  private loadChat() {
+    this.chatFlow.chat.subscribe((uid: string) => {
+      if (uid) {
+        this.id = uid;
+        this.previousId = uid;
+        this.getChat();
+      }
+    });
   }
 }

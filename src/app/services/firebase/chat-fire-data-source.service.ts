@@ -20,15 +20,29 @@ import { AuthService } from './auth.service';
 })
 export class ChatFireDataSourceService {
   private currentUser: UserModel;
+  private usersCollection: AngularFirestoreCollection<UserModel>;
   private conversationsCollection: AngularFirestoreCollection<
     ConversationModel
   >;
   private messagesCollection: AngularFirestoreCollection<MessageModel>;
   private sendMessageCollection: AngularFirestoreCollection<MessageModel>;
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private auth: AuthService) {
     this.currentUser = new UserModel();
     this.currentUser = JSON.parse(localStorage.getItem('user'));
+  }
+
+  getUsers() {
+    this.usersCollection = this.firestore.collection<UserModel>(`users`);
+    return this.usersCollection.snapshotChanges().pipe(
+      map((actions) => {
+        return actions.map((action) => {
+          const data = action.payload.doc.data() as UserModel;
+          const uid = action.payload.doc.id;
+          return { uid, ...data };
+        });
+      })
+    );
   }
 
   getConversations(): Observable<ConversationModel[]> {
@@ -45,6 +59,24 @@ export class ChatFireDataSourceService {
       })
     );
   }
+
+  createConversation(usrs: string[]): ConversationModel {
+    const id = this.firestore.createId();
+    const localUser: UserModel = this.auth.getLocalUser();
+    const newConversation: ConversationModel = {
+      uid: id,
+      displayName: localUser.displayName,
+      userUid: localUser.uid,
+      users: usrs,
+      message: '',
+      photoURL: localUser.photoURL
+    };
+
+    this.setDataConversation(newConversation);
+
+    return newConversation;
+  }
+  saveConversation() {}
 
   getChat(idConv: string): Observable<MessageModel[]> {
     this.conversationsCollection

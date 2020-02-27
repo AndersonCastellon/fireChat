@@ -30,12 +30,13 @@ export class AuthService {
       .catch((error) => {
         this.errorCode = error.code;
       })
-      .then((resolve) => {
+      .then((resolve: any) => {
         if (resolve) {
           delete user.password;
           user.uid = resolve.user.uid;
           user.refreshToken = resolve.user.refreshToken;
           user.providerId = resolve.additionalUserInfo.providerId;
+          user.lastSignInTime = resolve.user.metadata.b;
 
           this.saveCurrentUser(user);
           this.getToConversations();
@@ -65,22 +66,21 @@ export class AuthService {
       })
       .then((resolve: any) => {
         if (resolve) {
-          const user: UserModel = {
-            uid: resolve.user.uid,
-            displayName: resolve.user.displayName,
-            email: resolve.user.email,
-            photoURL: resolve.user.photoURL,
-            refreshToken: resolve.user.refreshToken,
-            providerId: resolve.additionalUserInfo.providerId
-          };
-
-          this.saveCurrentUser(user);
+          this.saveCurrentUser(this.makeUser(resolve));
           this.getToConversations();
         }
       });
   }
   loginWithFacebook() {
-    return this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+    this.afAuth.auth
+      .signInWithPopup(new auth.FacebookAuthProvider())
+      .catch((error) => (this.errorCode = error.code))
+      .then((resolve) => {
+        if (resolve) {
+          this.saveCurrentUser(this.makeUser(resolve));
+          this.getToConversations();
+        }
+      });
   }
   loginWithTwitter() {
     return this.afAuth.auth.signInWithPopup(new auth.TwitterAuthProvider());
@@ -134,5 +134,18 @@ export class AuthService {
 
   private getToConversations() {
     this.router.navigate(['conversations']);
+  }
+
+  private makeUser(resolve: any) {
+    const user: UserModel = {
+      uid: resolve.user.uid,
+      displayName: resolve.user.displayName,
+      email: resolve.user.email,
+      photoURL: resolve.user.photoURL,
+      refreshToken: resolve.user.refreshToken,
+      providerId: resolve.additionalUserInfo.providerId,
+      lastSignInTime: resolve.user.metadata.b
+    };
+    return user;
   }
 }

@@ -6,4 +6,5 @@ export class UserModel {
   refreshToken?: string;
   password?: string;
   providerId?: string;
+  lastSignInTime?: number;
 }
