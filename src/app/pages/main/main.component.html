@@ -5,14 +5,24 @@
       <div class="bg-white">
         <div class="row bg-gray px-4 py-2 bg-light">
           <div class="col text-muted">
-            <p class="h5 mb-0 py-1">
+            <p *ngIf="!showUsers" class="h5 mb-0 py-1">
               Recientes
+            </p>
+            <p *ngIf="showUsers" class="h5 mb-0 py-1">
+              Usuarios
             </p>
           </div>
           <div class="col align-self-center puntero">
             <a (click)="switchView()"
-              ><i class="fas fa-plus float-right"></i
-            ></a>
+              ><i
+                *ngIf="!showUsers"
+                class="fas fa-plus text-muted float-right"
+              ></i>
+              <i
+                *ngIf="showUsers"
+                class="fas fa-comments text-muted float-right"
+              ></i>
+            </a>
           </div>
           <div class="col align-self-center">
             <button (click)="logout()" class="btn btn-link float-right">
