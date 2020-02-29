@@ -63,8 +63,10 @@ export class MainComponent implements OnInit {
       uid,
       this.currentUser.uid
     ]);
-    console.log(newConversation);
-    // Unshift to conversations
+
+    setTimeout(() => {
+      this.activeConversation(newConversation.uid);
+    }, 200);
   }
 
   private onCleanMessages() {

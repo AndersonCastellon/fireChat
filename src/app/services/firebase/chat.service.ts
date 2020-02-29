@@ -75,6 +75,8 @@ export class ChatService {
 
     this.setDataConversation(newConversation);
     this.saveConversation(newConversation);
+
+    return newConversation;
   }
 
   saveConversation(conversation: ConversationModel) {
@@ -88,6 +90,8 @@ export class ChatService {
       .doc(conversation.uid)
       .set(conv);
   }
+
+  deleteConversation(conversation: ConversationModel) {}
 
   getChat(conversation: ConversationModel): Observable<MessageModel[]> {
     this.setDataConversation(conversation);
