@@ -46,7 +46,8 @@ export class ChatService {
 
   getConversations(): Observable<ConversationModel[]> {
     this.conversationsCollection = this.firestore.collection<ConversationModel>(
-      `users/${this.currentUser.uid}/conversations`
+      `users/${this.currentUser.uid}/conversations`,
+      (ref) => ref.orderBy('date', 'asc')
     );
     return this.conversationsCollection.snapshotChanges().pipe(
       map((actions) => {
@@ -59,7 +60,7 @@ export class ChatService {
     );
   }
 
-  createConversation(usrs: string[]): ConversationModel {
+  createConversation(usrs: string[]) {
     const id = this.firestore.createId();
     const localUser: UserModel = this.auth.getLocalUser();
     const newConversation: ConversationModel = {
@@ -68,26 +69,31 @@ export class ChatService {
       userUid: localUser.uid,
       users: usrs,
       message: '',
-      photoURL: localUser.photoURL
+      photoURL: localUser.photoURL,
+      date: new Date().getTime()
     };
 
     this.setDataConversation(newConversation);
-
-    return newConversation;
+    this.saveConversation(newConversation);
   }
-  saveConversation() {}
 
-  getChat(idConv: string): Observable<MessageModel[]> {
-    this.conversationsCollection
-      .doc(idConv)
-      .valueChanges()
-      .subscribe((convers: ConversationModel) => {
-        convers.uid = idConv;
-        this.setDataConversation(convers);
-      });
+  saveConversation(conversation: ConversationModel) {
+    const conv = { ...conversation };
+    delete conv.uid;
+
+    this.firestore
+      .collection<ConversationModel>(
+        `users/${this.currentUser.uid}/conversations`
+      )
+      .doc(conversation.uid)
+      .set(conv);
+  }
+
+  getChat(conversation: ConversationModel): Observable<MessageModel[]> {
+    this.setDataConversation(conversation);
 
     this.messagesCollection = this.firestore.collection<MessageModel>(
-      `users/${this.currentUser.uid}/conversations/${idConv}/chat`,
+      `users/${this.currentUser.uid}/conversations/${conversation.uid}/chat`,
       (ref) => ref.orderBy('date', 'asc')
     );
     return this.messagesCollection.snapshotChanges().pipe(

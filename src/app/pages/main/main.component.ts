@@ -49,15 +49,23 @@ export class MainComponent implements OnInit {
     });
   }
 
-  public onLoadChat(conversationId: string) {
-    this.chat.getChat(conversationId).subscribe((chat) => {
-      console.log('onLoadchat', chat);
+  public onLoadChat(conversation: ConversationModel) {
+    this.chat.getChat(conversation).subscribe((chat) => {
       this.messages = chat;
-      this.activeConversation(conversationId);
+      this.activeConversation(conversation.uid);
     });
   }
 
-  public onCreateConversation(uid: string) {}
+  public onCreateConversation(uid: string) {
+    this.showUsers = false;
+    // Create new conversation
+    const newConversation = this.chat.createConversation([
+      uid,
+      this.currentUser.uid
+    ]);
+    console.log(newConversation);
+    // Unshift to conversations
+  }
 
   private onCleanMessages() {
     this.messages = null;

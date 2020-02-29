@@ -10,13 +10,15 @@ import { MainComponent } from './main.component';
 import { ConversationComponent } from '../../components/conversation/conversation.component';
 import { MessageComponent } from '../../components/message/message.component';
 import { UserComponent } from '../../components/user/user.component';
+import { SendMessageFormComponent } from 'src/app/components/send-message-form/send-message-form.component';
 
 @NgModule({
   declarations: [
     MainComponent,
     ConversationComponent,
     MessageComponent,
-    UserComponent
+    UserComponent,
+    SendMessageFormComponent
   ],
   imports: [
     RouterModule,

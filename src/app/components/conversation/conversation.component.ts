@@ -8,9 +8,9 @@ import { ConversationModel } from 'src/app/models/conversation.model';
 })
 export class ConversationComponent implements OnInit {
   @Input() conversation: ConversationModel;
-  @Output() id: EventEmitter<string>;
+  @Output() thisConversation: EventEmitter<ConversationModel>;
   constructor() {
-    this.id = new EventEmitter();
+    this.thisConversation = new EventEmitter();
   }
 
   ngOnInit() {}

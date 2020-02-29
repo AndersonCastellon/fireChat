@@ -35,13 +35,14 @@
             <!-- Recents conversations -->
             <div class="animated fadeInLeft fast" *ngIf="!showUsers">
               <app-conversation
-                (id)="onLoadChat($event)"
+                (thisConversation)="onLoadChat($event)"
                 *ngFor="let conversation of conversations"
                 [conversation]="conversation"
               ></app-conversation>
             </div>
             <div class="animated fadeInRight fast" *ngIf="showUsers">
               <app-user
+                (thisUserUid)="onCreateConversation($event)"
                 *ngFor="let user of users"
                 [user]="user"
                 [uid]="currentUser.uid"
@@ -64,22 +65,7 @@
       </div>
 
       <!-- Typing area -->
-      <form class="bg-light">
-        <div class="input-group">
-          <input
-            type="text"
-            name="message"
-            required
-            placeholder="Escribe un mensaje"
-            class="form-control rounded-0 border-0 py-4 bg-light"
-          />
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-link">
-              <i class="fa fa-paper-plane text-success"></i>
-            </button>
-          </div>
-        </div>
-      </form>
+      <app-send-message-form></app-send-message-form>
     </div>
   </div>
 </div>
