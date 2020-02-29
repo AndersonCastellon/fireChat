@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
   public users: UserModel[];
 
   public showUsers: boolean;
+  public enableForm: boolean;
 
   constructor(private auth: AuthService, private chat: ChatService) {
     this.currentUser = auth.getLocalUser();
@@ -24,6 +25,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.showUsers = false;
+    this.enableForm = false;
     this.getConversations();
   }
 
@@ -33,6 +35,8 @@ export class MainComponent implements OnInit {
 
   switchView() {
     this.showUsers = !this.showUsers;
+    this.disableSendForm();
+    // tslint:disable-next-line: no-unused-expression
     this.showUsers ? this.getUsers() : this.getConversations;
   }
 
@@ -53,6 +57,7 @@ export class MainComponent implements OnInit {
     this.chat.getChat(conversation).subscribe((chat) => {
       this.messages = chat;
       this.activeConversation(conversation.uid);
+      this.enableSendForm();
     });
   }
 
@@ -68,6 +73,14 @@ export class MainComponent implements OnInit {
 
   private onCleanMessages() {
     this.messages = null;
+  }
+
+  private enableSendForm() {
+    this.enableForm = true;
+  }
+
+  private disableSendForm() {
+    this.enableForm = false;
   }
 
   private activeConversation(conversationId: string) {

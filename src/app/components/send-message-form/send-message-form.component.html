@@ -1,6 +1,7 @@
 <form class="bg-light">
   <div class="input-group">
     <input
+      [disabled]="!enable"
       type="text"
       name="message"
       required
@@ -8,7 +9,7 @@
       class="form-control rounded-0 border-0 py-4 bg-light"
     />
     <div class="input-group-append">
-      <button type="submit" class="btn btn-link">
+      <button [disabled]="!enable" type="submit" class="btn btn-link">
         <i class="fa fa-paper-plane text-success"></i>
       </button>
     </div>

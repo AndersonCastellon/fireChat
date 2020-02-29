@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-send-message-form',
@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class SendMessageFormComponent implements OnInit {
-
-  constructor() { }
+  @Input() enable: boolean;
+  constructor() {}
 
   ngOnInit() {
+    console.log(this.enable);
   }
-
 }
