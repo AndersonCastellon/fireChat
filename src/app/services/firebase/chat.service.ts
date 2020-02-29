@@ -28,7 +28,7 @@ export class ChatService {
   private sendMessageCollection: AngularFirestoreCollection<MessageModel>;
 
   constructor(private firestore: AngularFirestore, private auth: AuthService) {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.currentUser = this.auth.getLocalUser();
   }
 
   getUsers() {
@@ -60,16 +60,15 @@ export class ChatService {
     );
   }
 
-  createConversation(usrs: string[]) {
+  createConversation(anotherUser: UserModel) {
     const id = this.firestore.createId();
-    const localUser: UserModel = this.auth.getLocalUser();
     const newConversation: ConversationModel = {
       uid: id,
-      displayName: localUser.displayName,
-      userUid: localUser.uid,
-      users: usrs,
+      displayName: anotherUser.displayName,
+      userUid: anotherUser.uid,
+      users: [anotherUser.uid, this.currentUser.uid],
       message: '',
-      photoURL: localUser.photoURL,
+      photoURL: anotherUser.photoURL,
       date: new Date().getTime()
     };
 

@@ -42,7 +42,7 @@
             </div>
             <div class="animated fadeInRight fast" *ngIf="showUsers">
               <app-user
-                (thisUserUid)="onCreateConversation($event)"
+                (thisUser)="onCreateConversation($event)"
                 *ngFor="let user of users"
                 [user]="user"
                 [uid]="currentUser.uid"

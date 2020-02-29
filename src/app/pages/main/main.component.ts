@@ -56,13 +56,10 @@ export class MainComponent implements OnInit {
     });
   }
 
-  public onCreateConversation(uid: string) {
+  public onCreateConversation(anotherUser: UserModel) {
     this.showUsers = false;
     // Create new conversation
-    const newConversation = this.chat.createConversation([
-      uid,
-      this.currentUser.uid
-    ]);
+    const newConversation = this.chat.createConversation(anotherUser);
 
     setTimeout(() => {
       this.activeConversation(newConversation.uid);

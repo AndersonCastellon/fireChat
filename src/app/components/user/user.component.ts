@@ -9,9 +9,9 @@ import { UserModel } from 'src/app/models/user.model';
 export class UserComponent implements OnInit {
   @Input() user: UserModel;
   @Input() uid: string;
-  @Output() thisUserUid: EventEmitter<string>;
+  @Output() thisUser: EventEmitter<UserModel>;
   constructor() {
-    this.thisUserUid = new EventEmitter();
+    this.thisUser = new EventEmitter();
   }
 
   ngOnInit() {}
