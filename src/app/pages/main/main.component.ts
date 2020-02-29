@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
   }
 
   private getUsers() {
+    this.onCleanMessages();
     this.chat.getUsers().subscribe((result) => {
       this.users = result;
     });
@@ -50,9 +51,32 @@ export class MainComponent implements OnInit {
 
   public onLoadChat(conversationId: string) {
     this.chat.getChat(conversationId).subscribe((chat) => {
+      console.log('onLoadchat', chat);
       this.messages = chat;
+      this.activeConversation(conversationId);
     });
   }
 
   public onCreateConversation(uid: string) {}
+
+  private onCleanMessages() {
+    this.messages = null;
+  }
+
+  private activeConversation(conversationId: string) {
+    const conversation = document.getElementById(conversationId);
+    conversation.classList.remove('text-muted');
+    conversation.classList.add('bg-primary', 'text-white');
+
+    const another = { ...this.conversations };
+    // tslint:disable-next-line: forin
+    for (const conv in another) {
+      const next = another[conv];
+      if (next.uid !== conversationId) {
+        const anotherElement = document.getElementById(next.uid);
+        anotherElement.classList.remove('bg-primary', 'text-white');
+        anotherElement.classList.add('text-muted');
+      }
+    }
+  }
 }

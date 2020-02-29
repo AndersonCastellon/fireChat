@@ -1,14 +1,8 @@
-<div
-  class="media w-50 mb-3"
-  [ngClass]="{ 'ml-auto': message.userUid === currentUser.uid }"
->
-  <div
-    class="media-body"
-    [ngClass]="{ 'ml-3': message.userUid !== currentUser.uid }"
-  >
+<div class="media w-50 mb-3" [ngClass]="{ 'ml-auto': message.userUid === uid }">
+  <div class="media-body" [ngClass]="{ 'ml-3': message.userUid !== uid }">
     <!-- Mensajes enviados -->
     <div
-      *ngIf="message.userUid === currentUser.uid"
+      *ngIf="message.userUid === uid"
       class="bg-primary rounded py-2 px-3 mb-2"
     >
       <p class="text-white text-small mb-0">
@@ -17,7 +11,7 @@
     </div>
     <!-- Mensajes recibidos -->
     <div
-      *ngIf="message.userUid !== currentUser.uid"
+      *ngIf="message.userUid !== uid"
       class="bg-light rounded py-2 px-3 mb-2"
     >
       <p class="text-muted text-small mb-0">

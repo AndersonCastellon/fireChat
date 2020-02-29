@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConversationModel } from 'src/app/models/conversation.model';
 
 @Component({
@@ -8,7 +8,10 @@ import { ConversationModel } from 'src/app/models/conversation.model';
 })
 export class ConversationComponent implements OnInit {
   @Input() conversation: ConversationModel;
-  constructor() {}
+  @Output() id: EventEmitter<string>;
+  constructor() {
+    this.id = new EventEmitter();
+  }
 
   ngOnInit() {}
 }

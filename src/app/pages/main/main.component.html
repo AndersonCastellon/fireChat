@@ -23,16 +23,15 @@
         <div class="messages-box">
           <div class="list-group rounded-0">
             <!-- Recents conversations -->
-            <div *ngIf="!showUsers">
+            <div class="animated fadeInLeft fast" *ngIf="!showUsers">
               <app-conversation
-                class="animated fadeInLeft fast"
+                (id)="onLoadChat($event)"
                 *ngFor="let conversation of conversations"
                 [conversation]="conversation"
               ></app-conversation>
             </div>
-            <div *ngIf="showUsers">
+            <div class="animated fadeInRight fast" *ngIf="showUsers">
               <app-user
-                class="animated fadeInRight fast"
                 *ngFor="let user of users"
                 [user]="user"
                 [uid]="currentUser.uid"
@@ -47,6 +46,8 @@
       <div class="px-4 py-5 chat-box bg-white">
         <!-- Sender Message-->
         <app-message
+          class="animated fadeInUp fast"
+          [uid]="currentUser.uid"
           *ngFor="let message of messages"
           [message]="message"
         ></app-message>

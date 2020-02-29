@@ -7,6 +7,7 @@ import { MessageModel } from 'src/app/models/message.model';
 })
 export class MessageComponent implements OnInit {
   @Input() message: MessageModel;
+  @Input() uid: string;
   constructor() {}
   ngOnInit() {}
 }
