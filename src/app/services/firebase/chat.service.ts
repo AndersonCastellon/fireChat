@@ -73,19 +73,17 @@ export class ChatService {
     };
 
     this.setDataConversation(newConversation);
-    this.saveConversation(newConversation);
+    this.saveConversation(newConversation, this.currentUser.uid);
 
     return newConversation;
   }
 
-  saveConversation(conversation: ConversationModel) {
+  saveConversation(conversation: ConversationModel, uid: string) {
     const conv = { ...conversation };
     delete conv.uid;
 
     this.firestore
-      .collection<ConversationModel>(
-        `users/${this.currentUser.uid}/conversations`
-      )
+      .collection<ConversationModel>(`users/${uid}/conversations`)
       .doc(conversation.uid)
       .set(conv);
   }
@@ -109,32 +107,36 @@ export class ChatService {
       })
     );
   }
-  sendMessage(message: MessageModel) {
-    const msj = { ...message };
-    const currentConversation = this.getConversationId();
-    const conversationUsers = this.getUsersConversation();
+  sendMessage(msj: string) {
+    const currentConversation = this.getCurrentConversationId();
+    const conversationUsers = this.getCurrentUsersConversationId();
     const id = this.firestore.createId();
 
-    // Guardar el mensaje en la conversacion del usuario actual
-    this.sendMessageCollection = this.firestore.collection<MessageModel>(
-      `users/${this.currentUser.uid}/conversations/${currentConversation}/chat`
-    );
-    this.sendMessageCollection.doc(id).set(msj);
-
-    // Actualizar el ultimo mensaje enviado en la conversacion actual
-    this.firestore
-      .doc<MessageModel>(
-        `users/${this.currentUser.uid}/conversations/${currentConversation}`
-      )
-      .update(msj);
+    const message: MessageModel = {
+      userUid: this.currentUser.uid,
+      displayName: this.currentUser.displayName,
+      photoURL: this.currentUser.photoURL,
+      message: msj,
+      date: new Date().getTime()
+    };
 
     // Agregar el mensaje a esta conversación de cada usuario participante
     if (conversationUsers) {
       conversationUsers.forEach((uid) => {
-        console.log(uid);
+        // Guardar el mensaje en la conversacion del usuario actual
+        this.sendMessageCollection = this.firestore.collection<MessageModel>(
+          `users/${uid}/conversations/${currentConversation}/chat`
+        );
+        this.sendMessageCollection.doc(id).set(message);
+
+        // Actualizar el ultimo mensaje enviado en la conversacion actual
+        this.firestore
+          .doc<MessageModel>(
+            `users/${uid}/conversations/${currentConversation}`
+          )
+          .update(message);
       });
     }
-    // Actualizar el ultimo mensaje enviado en cada usuario participante
   }
   deleteMessage() {
     throw new Error('Method not implemented.');
@@ -151,13 +153,13 @@ export class ChatService {
     localStorage.setItem('currentConversation', conversation.uid);
   }
 
-  private getUsersConversation(): [] {
+  private getCurrentUsersConversationId(): [] {
     if (localStorage.getItem('uids')) {
       return JSON.parse(localStorage.getItem('uids'));
     }
   }
 
-  private getConversationId() {
+  private getCurrentConversationId(): string {
     return localStorage.getItem('currentConversation');
   }
 }

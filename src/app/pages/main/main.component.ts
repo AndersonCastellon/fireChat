@@ -71,6 +71,10 @@ export class MainComponent implements OnInit {
     }, 200);
   }
 
+  public sendMessage(message: string) {
+    this.chat.sendMessage(message);
+  }
+
   private onCleanMessages() {
     this.messages = null;
   }

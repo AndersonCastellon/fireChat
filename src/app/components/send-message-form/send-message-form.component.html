@@ -1,10 +1,9 @@
-<form class="bg-light">
+<form [formGroup]="form" (ngSubmit)="sendMessage()" class="bg-light">
   <div class="input-group">
     <input
       [disabled]="!enable"
       type="text"
-      name="message"
-      required
+      formControlName="message"
       placeholder="Escribe un mensaje"
       class="form-control rounded-0 border-0 py-4 bg-light"
     />

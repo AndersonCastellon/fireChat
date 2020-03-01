@@ -11,6 +11,7 @@ import { ConversationComponent } from '../../components/conversation/conversatio
 import { MessageComponent } from '../../components/message/message.component';
 import { UserComponent } from '../../components/user/user.component';
 import { SendMessageFormComponent } from 'src/app/components/send-message-form/send-message-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SendMessageFormComponent } from 'src/app/components/send-message-form/s
     RouterModule,
     CommonModule,
     MainRoutingModule,
-    AngularFireAuthGuardModule
+    AngularFireAuthGuardModule,
+    ReactiveFormsModule
   ]
 })
 export class MainModule {}

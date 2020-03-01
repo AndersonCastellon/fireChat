@@ -65,7 +65,10 @@
       </div>
 
       <!-- Typing area -->
-      <app-send-message-form [enable]="enableForm"></app-send-message-form>
+      <app-send-message-form
+        [enable]="enableForm"
+        (newMessage)="sendMessage($event)"
+      ></app-send-message-form>
     </div>
   </div>
 </div>
