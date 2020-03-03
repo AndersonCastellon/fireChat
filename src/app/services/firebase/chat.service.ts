@@ -143,14 +143,11 @@ export class ChatService {
   }
 
   private setDataConversation(conversation: ConversationModel) {
-    localStorage.removeItem('uids');
     localStorage.removeItem('currentConversation');
 
-    if (conversation.users) {
-      localStorage.setItem('uids', JSON.stringify(conversation.users));
+    if (conversation) {
+      localStorage.setItem('currentConversation', JSON.stringify(conversation));
     }
-
-    localStorage.setItem('currentConversation', conversation.uid);
   }
 
   private getCurrentUsersConversationId(): [] {
