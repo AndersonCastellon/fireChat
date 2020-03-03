@@ -108,8 +108,7 @@ export class ChatService {
     );
   }
   sendMessage(msj: string) {
-    const currentConversation = this.getCurrentConversationId();
-    const conversationUsers = this.getCurrentUsersConversationId();
+    const currentConversation: ConversationModel = this.getCurrentConversation();
     const id = this.firestore.createId();
 
     const message: MessageModel = {
@@ -120,21 +119,40 @@ export class ChatService {
       date: new Date().getTime()
     };
 
+    const updateC: ConversationModel = {
+      message: msj,
+      date: message.date
+    };
+
     // Agregar el mensaje a esta conversación de cada usuario participante
-    if (conversationUsers) {
-      conversationUsers.forEach((uid) => {
-        // Guardar el mensaje en la conversacion del usuario actual
+    const users = currentConversation.users;
+    if (users) {
+      users.forEach((uid) => {
+        // Validar si aun no existe la conversacion para crearla
+        {
+          const exist = this.firestore
+            .doc<ConversationModel>(
+              `users/${uid}/conversations/${currentConversation}`
+            )
+            .valueChanges();
+          console.log(exist);
+          if (!exist) {
+            this.saveConversation(currentConversation, uid);
+          }
+        }
+
+        // Guardar el mensaje en la conversacion del usuario
         this.sendMessageCollection = this.firestore.collection<MessageModel>(
           `users/${uid}/conversations/${currentConversation}/chat`
         );
         this.sendMessageCollection.doc(id).set(message);
 
-        // Actualizar el ultimo mensaje enviado en la conversacion actual
+        // Actualizar el ultimo mensaje enviado en la conversacion
         this.firestore
-          .doc<MessageModel>(
+          .doc<ConversationModel>(
             `users/${uid}/conversations/${currentConversation}`
           )
-          .update(message);
+          .update(updateC);
       });
     }
   }
@@ -150,13 +168,7 @@ export class ChatService {
     }
   }
 
-  private getCurrentUsersConversationId(): [] {
-    if (localStorage.getItem('uids')) {
-      return JSON.parse(localStorage.getItem('uids'));
-    }
-  }
-
-  private getCurrentConversationId(): string {
-    return localStorage.getItem('currentConversation');
+  private getCurrentConversation(): ConversationModel {
+    return JSON.parse(localStorage.getItem('currentConversation'));
   }
 }
