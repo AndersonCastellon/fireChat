@@ -79,7 +79,7 @@ export class ChatService {
   }
 
   saveConversation(conversation: ConversationModel, uid: string) {
-    const conv = { ...conversation };
+    const conv: ConversationModel = { ...(conversation as ConversationModel) };
     delete conv.uid;
 
     this.firestore
@@ -129,30 +129,31 @@ export class ChatService {
     if (users) {
       users.forEach((uid) => {
         // Validar si aun no existe la conversacion para crearla
-        {
-          const exist = this.firestore
-            .doc<ConversationModel>(
-              `users/${uid}/conversations/${currentConversation}`
-            )
-            .valueChanges();
-          console.log(exist);
-          if (!exist) {
-            this.saveConversation(currentConversation, uid);
-          }
+        if (uid !== this.currentUser.uid) {
+          const anotherUser = this.auth.getAnyUser(uid);
+          console.log(anotherUser);
         }
+        const c = this.firestore
+          .collection<ConversationModel>(`users/${uid}/conversations/`)
+          .doc(currentConversation.uid)
+          .valueChanges()
+          .subscribe((c) => {
+            if (!c) {
+              this.saveConversation(currentConversation, uid);
+            }
 
-        // Guardar el mensaje en la conversacion del usuario
-        this.sendMessageCollection = this.firestore.collection<MessageModel>(
-          `users/${uid}/conversations/${currentConversation}/chat`
-        );
-        this.sendMessageCollection.doc(id).set(message);
+            // Guardar el mensaje en la conversacion del usuario
+            this.sendMessageCollection = this.firestore.collection<
+              MessageModel
+            >(`users/${uid}/conversations/${currentConversation.uid}/chat`);
+            this.sendMessageCollection.doc(id).set(message);
 
-        // Actualizar el ultimo mensaje enviado en la conversacion
-        this.firestore
-          .doc<ConversationModel>(
-            `users/${uid}/conversations/${currentConversation}`
-          )
-          .update(updateC);
+            // Actualizar el ultimo mensaje enviado en la conversacion
+            this.firestore
+              .collection<ConversationModel>(`users/${uid}/conversations/`)
+              .doc(currentConversation.uid)
+              .update(updateC);
+          });
       });
     }
   }

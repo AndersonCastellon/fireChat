@@ -101,7 +101,7 @@ export class AuthService {
     const usr: UserModel = { ...user };
     delete usr.uid;
 
-    const doc = this.firestore
+    this.firestore
       .collection<UserModel>(`users/`)
       .doc(user.uid)
       .set(usr);
@@ -130,6 +130,20 @@ export class AuthService {
     if (localStorage.getItem('user')) {
       return JSON.parse(localStorage.getItem('user'));
     }
+  }
+
+  getAnyUser(uid: string) {
+    let d: any;
+    this.firestore
+      .doc<UserModel>(`users/${uid}`)
+      .snapshotChanges()
+      .subscribe((data) => {
+        const user = data.payload.data() as UserModel;
+        const uid = data.payload.id;
+        d = { uid, ...user };
+      });
+
+    return d;
   }
 
   private getToConversations() {
